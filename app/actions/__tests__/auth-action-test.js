@@ -14,6 +14,7 @@ import {
 	AUTH_LOGIN_REQUEST,
 	AUTH_LOGIN_SUCCESS,
 	AUTH_LOGIN_INVALID,
+	DASHBOARD_LOAD_MENU,
 } from 'app/actions';
 
 import request from 'app/util/request';
@@ -46,6 +47,15 @@ describe('AUTH ACTION', function(){
 				token: '123',
 				email: 'm@k.com',
 			},
+			{
+				type: DASHBOARD_LOAD_MENU,
+				menu: [
+					{ desc: 'Item1', route: '/app/item-1' },
+					{ desc: 'Item2', route: '/app/item-2' },
+					{ desc: 'Item3', route: '/app/item-3' },
+				],
+			},
+			{ payload: { arg: '/app', method: 'replace' }, type: '@@router/TRANSITION' },
 		];
 
 		const promiseResult = stub.returnsPromise();
@@ -70,7 +80,6 @@ describe('AUTH ACTION', function(){
 		const store = mockStore({}, expectedActions, done);
 		store.dispatch(login());
 	});
-
 
 	it('LOGIN REQUEST ASYNC - INVALID', function(done){
 		const stub = sandbox.stub(request,"post")
