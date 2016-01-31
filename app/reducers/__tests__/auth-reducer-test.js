@@ -1,0 +1,77 @@
+import deepFreeze from 'deep-freeze';
+import expect from 'expect';
+
+import reducer from 'app/reducers';
+
+import {
+	login,
+	success as loginSuccess,
+} from 'app/actions/auth-actions';
+import {
+	AUTH_LOGIN_REQUEST,
+	AUTH_LOGIN_SUCCESS,
+	AUTH_LOGIN_INVALID,
+} from 'app/actions';
+
+describe('AUTH REDUCER', function(){
+
+	it('LOGIN REQUEST', function(){
+		const state = reducer(undefined, {});
+		const actionRequestLogin = {
+			type: AUTH_LOGIN_REQUEST,
+		};
+		deepFreeze(state);
+
+		const newState = deepFreeze(reducer(state, actionRequestLogin));
+
+		expect(newState.login).toEqual({
+			isBusy: true,
+			error: undefined,
+			exception: undefined,
+			loggedIn: false,
+		});
+	});
+
+	it('LOGIN SUCCESS', function(){
+		const state = reducer(undefined, {});
+		const actionLoginSuccess = {
+			type: AUTH_LOGIN_SUCCESS,
+			token: '1234',
+			loggedIn: true,
+			email: 'm@k.com',
+		};
+
+		deepFreeze(state);
+
+		const newState = deepFreeze(reducer(state, actionLoginSuccess));
+
+		expect(newState.login).toEqual({
+			isBusy: false,
+			error: undefined,
+			exception: undefined,
+			token: actionLoginSuccess.token,
+			email: actionLoginSuccess.email,
+			loggedIn: true,
+		});
+	});
+
+	it('LOGIN INVALID', function(){
+		const state = reducer(undefined, {});
+		const actionLoginInvalid = {
+			type: AUTH_LOGIN_INVALID,
+			error: 'WRONG PASSWORD'
+		};
+
+		deepFreeze(state);
+
+		const newState = deepFreeze(reducer(state, actionLoginInvalid));
+
+		expect(newState.login).toEqual({
+			isBusy: false,
+			error: actionLoginInvalid.error,
+			exception: undefined,
+			loggedIn: false,
+		});
+	});
+
+});

@@ -1,0 +1,21 @@
+.flex-center-container {
+	display: flex;
+	align-items: center;
+
+	> .flex-center-item {
+		flex-grow: 1;
+	}
+}
+
+.container-waiting{
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+	background-color: rgba(0,0,0,0.5);
+	> p {
+		text-align: center;
+		color: white;
+	}
+}
