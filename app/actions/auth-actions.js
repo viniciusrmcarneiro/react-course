@@ -1,6 +1,6 @@
 import * as actionTypes from './index.js';
 import request from 'app/util/request';
-import { routeActions, } from 'redux-simple-router';
+import { routeActions, } from 'react-router-redux';
 import { loadMenu } from './dashboard-actions';
 
 export function logout(){

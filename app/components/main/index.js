@@ -87,7 +87,7 @@ class Main extends React.Component {
 				</Navbar>
 
 				<div className="container">
-					{this.props.children || <div>Sou a pagina principal, clique no menu login</div>}
+					{this.props.children || <div>Sou a pagina principal. TESTE</div>}
 				</div>
 
 			</div>

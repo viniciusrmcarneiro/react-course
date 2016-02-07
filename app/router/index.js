@@ -5,7 +5,7 @@ import {Router,} from 'react-router';
 import { Provider, } from 'react-redux';
 
 import createHistory from 'history/lib/createHashHistory';
-import { syncHistory, routeReducer, } from 'redux-simple-router';
+import { syncHistory, routeReducer, } from 'react-router-redux';
 
 import AppRoutes from 'app/router/routes';
 import storeCreator from 'app/store';

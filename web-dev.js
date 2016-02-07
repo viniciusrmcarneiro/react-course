@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const webpackDevServer = require('webpack-dev-server');
-const config = require('./webpack.config');
+const config = require('./webpack.config')({hot: true,});
 const entryDefault =[
 	'webpack-dev-server/client?http://0.0.0.0:8081',
 	'webpack/hot/only-dev-server',

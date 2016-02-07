@@ -15,11 +15,11 @@ import Profile from 'app/components/profile';
 //
 import Login from 'app/components/login';
 import Logout from 'app/components/logout';
-// import Signup from 'app/components/signup';
+import Signup from 'app/components/sign-up';
 
 import NotFound from 'app/components/not-found';
 
-import { routeActions, } from 'redux-simple-router';
+import { routeActions, } from 'react-router-redux';
 
 const AuthConnector = connect(
 	(state, props) => ({
@@ -55,8 +55,8 @@ const routes = (
 	<Route path="login" component={AuthConnector(Login)}/>
 		{/*
 		<IndexRoute component={HomeIndex} />
-		<Route path="signup" component={Signup} />
 		*/}
+		<Route path="sign-up" component={Signup} />
 
 		<Route path="app" component={DashboardConnector(Dashboard)}>
 			<Route path="logout" component={AuthConnector(Logout)}/>
