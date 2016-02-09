@@ -1,25 +1,15 @@
 import {
-    AUTH_LOGIN_REQUEST,
-    AUTH_LOGIN_SUCCESS,
-    AUTH_LOGIN_INVALID,
-    AUTH_LOGIN_ERROR,
-
-    AUTH_LOGOUT,
+    SIGNUP_REQUEST,
+    SIGNUP_SUCCESS,
+    SIGNUP_INVALID,
 } from 'app/actions';
 const initialState = {
-    loggedIn: false,
 };
 
-export default function AuthReducers(state = initialState, action) {
+export default function SignupReducers(state = initialState, action) {
     switch (action.type) {
 
-        case AUTH_LOGOUT:
-            if (state.isBusy){
-                return state;
-            }
-            return Object.assign({}, initialState);
-
-        case AUTH_LOGIN_REQUEST:
+        case SIGNUP_REQUEST:
             if (state.isBusy){
                 return state;
             }
@@ -29,22 +19,21 @@ export default function AuthReducers(state = initialState, action) {
                 exception: undefined,
             });
 
-        case AUTH_LOGIN_SUCCESS:
+        case SIGNUP_SUCCESS:
             return Object.assign({}, state, {
                 isBusy: false,
-                loggedIn: true,
                 error: undefined,
                 exception: undefined,
-                token: action.token,
                 email: action.email,
             })
-        case AUTH_LOGIN_INVALID:
+
+        case SIGNUP_INVALID:
             return Object.assign({}, state, {
                 isBusy: false,
                 error: action.error,
                 exception: action.exception,
             })
-        case AUTH_LOGIN_ERROR:
+
         default:
             return state
     }

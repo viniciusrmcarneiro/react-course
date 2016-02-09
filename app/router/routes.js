@@ -5,6 +5,7 @@ import { bindActionCreators, } from 'redux'
 import { connect, Provider, } from 'react-redux';
 
 import * as authActions from 'app/actions/auth-actions';
+import * as signupActions from 'app/actions/signup-actions';
 
 import Main from 'app/components/main';
 import Dashboard from 'app/components/dashboard';
@@ -22,53 +23,63 @@ import NotFound from 'app/components/not-found';
 import { routeActions, } from 'react-router-redux';
 
 const AuthConnector = connect(
-	(state, props) => ({
-		loginInfo: state.login,
-	}),
-	(dispatch) => ({
-		routeActions: bindActionCreators(routeActions, dispatch),
-		authActions: bindActionCreators(authActions, dispatch),
-	})
+    (state, props) => ({
+        loginInfo: state.login,
+    }),
+    (dispatch) => ({
+        routeActions: bindActionCreators(routeActions, dispatch),
+        authActions: bindActionCreators(authActions, dispatch),
+    })
 );
 
 const DashboardConnector = connect(
-	(state, props) => ({
-		loginInfo: state.login,
-	}),
-	(dispatch) => ({
-		routeActions: bindActionCreators(routeActions, dispatch)
-	})
+    (state, props) => ({
+        loginInfo: state.login,
+    }),
+    (dispatch) => ({
+        routeActions: bindActionCreators(routeActions, dispatch)
+    })
 );
 
 const MainConnector = connect(
-	(state, props) => ({
-		loginInfo: state.login,
-		menu: state.dashboard.menu,
-	}),
-	(dispatch) => ({
-		routeActions: bindActionCreators(routeActions, dispatch)
-	})
+    (state, props) => ({
+        loginInfo: state.login,
+        menu: state.dashboard.menu,
+    }),
+    (dispatch) => ({
+        routeActions: bindActionCreators(routeActions, dispatch)
+    })
+);
+
+const SignupConnector = connect(
+    (state, props) => ({
+        info: state.signup,
+    }),
+    (dispatch) => ({
+        // routeActions: bindActionCreators(routeActions, dispatch),
+        actions: bindActionCreators({signup: signupActions.signup}, dispatch),
+    })
 );
 
 const routes = (
-	<Route path="/" component={MainConnector(Main)}>
-	<Route path="login" component={AuthConnector(Login)}/>
-		{/*
-		<IndexRoute component={HomeIndex} />
-		*/}
-		<Route path="sign-up" component={Signup} />
+    <Route path="/" component={MainConnector(Main)}>
+    <Route path="login" component={AuthConnector(Login)}/>
+        {/*
+        <IndexRoute component={HomeIndex} />
+        */}
+        <Route path="sign-up" component={SignupConnector(Signup)} />
 
-		<Route path="app" component={DashboardConnector(Dashboard)}>
-			<Route path="logout" component={AuthConnector(Logout)}/>
-			<Route path="item-1" component={(props, context) => <div>{`I'm item 1`}</div>} />
-			<Route path="profile" component={Profile} />
-		</Route>
+        <Route path="app" component={DashboardConnector(Dashboard)}>
+            <Route path="logout" component={AuthConnector(Logout)}/>
+            <Route path="item-1" component={(props, context) => <div>{`I'm item 1`}</div>} />
+            <Route path="profile" component={Profile} />
+        </Route>
 
-		<Route path="*" component={NotFound}/>
-	</Route>
+        <Route path="*" component={NotFound}/>
+    </Route>
 );
 // const routes = {
-// 	component: App
+//  component: App
 // };
 
 export default routes;

@@ -1,3 +1,6 @@
+import 'bootstrap-loader';
+import './styles/default.scss';
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 

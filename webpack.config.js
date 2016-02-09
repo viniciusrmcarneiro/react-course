@@ -1,8 +1,9 @@
 const webpack = require('webpack');
 const path = require('path');
-const pkg = require('./package.json');
 
-const config = function({hot} = {hot: false,}){
+const config = function({hot, env} = {hot: false,}){
+    env = env || 'dev';
+    const config = require('./config/'+env).app;
     return {
         target: 'web',
         entry: {
@@ -10,7 +11,6 @@ const config = function({hot} = {hot: false,}){
                 'babel-polyfill',
                 path.join(__dirname, '/app/index.js'),
             ],
-            // vendors: Object.keys(pkg.dependencies),
             tests: [
                 'babel-polyfill',
                 'mocha!/'+ path.join(__dirname, '/tests/index.js'),
@@ -23,9 +23,11 @@ const config = function({hot} = {hot: false,}){
             publicPath: '/',
         },
         plugins: [
+            new webpack.DefinePlugin({"process.env": {
+                config: JSON.stringify(config),
+            }}),
             new webpack.optimize.OccurenceOrderPlugin(),
             new webpack.HotModuleReplacementPlugin(),
-            // new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js', Infinity),
             new webpack.optimize.CommonsChunkPlugin('vendors.js'),
         ],
         devtool: 'source-map',
@@ -46,13 +48,23 @@ const config = function({hot} = {hot: false,}){
                     loader: 'json-loader',
                 },
                 {
-                    test: /\.(css|scss)$/,
-                    loaders: ['style','css?sourceMap','autoprefixer','sass?sourceMap'],
-                },
-                {
                     test: /sinon.*\.js$/,
                     loader: 'imports?define=>false,require=>false',
                 },
+
+                {
+                    test: /\.css$/,
+                    loaders: ['style','css?sourceMap','autoprefixer',],
+                },
+                {
+                    test: /\.scss$/,
+                    loaders: ['style','css?sourceMap','autoprefixer','sass?sourceMap',],
+                },
+                { test: /\.woff2*(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff'},
+                { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,  loader: "url?limit=10000&mimetype=application/octet-stream" },
+                { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,  loader: "file" },
+                { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,  loader: "url?limit=10000&mimetype=image/svg+xml" },
+
             ],
             noParse: [
                 /\.min\.js/,

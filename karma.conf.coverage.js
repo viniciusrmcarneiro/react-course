@@ -12,9 +12,14 @@ module.exports = function(config) {
             {type: 'text-summary',},
         ],
     };
+
+    karamConfig.instrument = {
+        ignore: [/.*-test.js$/],
+    };
+
     karamConfig.webpack.module.preLoaders = [
         {
-            test: /\.js(x)?$/,
+            test: /^(?!.*-test\.js$).*\.js(x)?$/,
             loader: 'babel-istanbul',
             include: [
                 path.join(__dirname,'/app'),

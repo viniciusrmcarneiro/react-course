@@ -25,7 +25,7 @@ export default function UserApi(_file = _defaultFileName) {
             return new Promise((resolve, reject) => {
                 const users = fs.existsSync(_file) ? JSON.parse(fs.readFileSync(_file)) : {};
                 if (users[email] && users[email].password == getHash(password) ){
-                    return resolve();
+                    return resolve({token: getHash(new Date().toString()) });
                 }
 
                 return reject('User does not exists or invalid password.');

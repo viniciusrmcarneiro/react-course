@@ -4,10 +4,9 @@ import thunk from 'redux-thunk';
 import deepFreeze from 'deep-freeze';
 import expect from 'expect';
 
-import reducer from 'app/reducers';
-
 import {
     login,
+    logout,
     success as loginSuccess,
 } from 'app/actions/auth-actions';
 import {
@@ -15,6 +14,7 @@ import {
     AUTH_LOGIN_SUCCESS,
     AUTH_LOGIN_INVALID,
     DASHBOARD_LOAD_MENU,
+    AUTH_LOGOUT,
 } from 'app/actions';
 
 import request from 'app/util/request';
@@ -65,6 +65,29 @@ describe('AUTH ACTION', function(){
             email:'m@k.com',
             password:'123',
         }));
+    });
+
+    it('LOGOUT ASYNC - WHEN IT IS BUSY ', function(){
+        var dispatchSpy = sinon.spy();
+        expect(undefined).toEqual(logout()(dispatchSpy,() => ({ login: { isBusy: true,}})));
+        expect(0).toEqual(dispatchSpy.callCount);
+    });
+
+    it('LOGOUT ASYNC', function(done){
+        const expectedActions = [
+            {
+                type: AUTH_LOGOUT,
+            },
+            { payload: { args: ['/'], method: 'replace' }, type: '@@router/TRANSITION' },
+        ];
+
+        const store = mockStore({
+            login: {},
+        },
+
+        expectedActions, done);
+
+        store.dispatch(logout());
     });
 
     it('LOGIN REQUEST ASYNC - EMPTY', function(done){

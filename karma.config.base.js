@@ -1,4 +1,6 @@
 const webpackConfig = require('./webpack.config')({hot: false,});
+const webpack = require('webpack');
+const configTest = require('./config/test').app;
 
 module.exports = function(){
     return {
@@ -20,6 +22,12 @@ module.exports = function(){
             module: webpackConfig.module,
             resolve: webpackConfig.resolve,
             devtool: 'inline-source-map',
+            plugins: [
+                new webpack.DefinePlugin({"process.env": {
+                    config: JSON.stringify(configTest),
+                }}),
+            ],
+            
         },
 
         webpackMiddleware: {

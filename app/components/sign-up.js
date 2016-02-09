@@ -1,75 +1,102 @@
-import React from 'react';
+import React,
+ { PropTypes, } from 'react';
 
 class SignUp extends React.Component {
-	constructor(props){
-		super(props);
-		this.state = {
-			email: '',
-			password: '',
-			confirmPassword: '',
-		}
-	}
+    static propTypes = {
+        actions: PropTypes.shape({
+            signup: PropTypes.func.isRequired,
+        }).isRequired,
 
-	renderBusy(){
-		if (!this.props.isBusy){
-			return;
-		}
-		return (
-			<div className={`flex-center-container container-waiting`}
-			>
-				<p className="flex-center-item">Aguarde</p>
-			</div>
-		);
-	}
+        info: PropTypes.shape({
+            isBusy: PropTypes.bool,
+            error: PropTypes.string,
+        }).isRequired,
+    };
 
-	render() {
-		return (
-			<div style={{position: "relative"}}>
-				<h3>SignUp</h3>
-				{this.props.error}
-				{this.renderBusy()}
-				<div className="form-group">
-					<label htmlFor="inputEmail3">Email</label>
-					<input disabled={this.props.isBusy} 
-						type="email" className="form-control" id="inputEmail3" placeholder="Email"
-						onChange={(e) => this.setState({email: e.target.value,})}
-					/>
-				</div>
+    constructor(props){
+        super(props);
+        this.state = {
+            email: '',
+            password: '',
+            confirmPassword: '',
+        }
+    }
 
-				<div className="form-group">
-					<label htmlFor="inputPassword3">Password</label>
-					<input disabled={this.props.isBusy} type="password" className="form-control" id="inputPassword3" placeholder="Password"
-						onChange={(e) => this.setState({password: e.target.value,})}
-					/>
-				</div>
+    renderBusy(){
+        if (!this.props.info.isBusy){
+            return;
+        }
+        return (
+            <div className={`flex-center-container container-waiting`}>
+                <p className="flex-center-item">Aguarde</p>
+            </div>
+        );
+    }
 
-				<div className="form-group">
-					<label htmlFor="inputPassword4">Confirm Password</label>
-					<input 
-						disabled={this.props.isBusy}
-						type="password"
-						className="form-control"
-						id="inputPassword4"
-						placeholder="type again you password"
-						onChange={(e) => this.setState({confirmPassword: e.target.value,})}
-					/>
-				</div>
+    renderError(){
+        if (!this.props.info.error){
+            return null;
+        }
 
-				<button
-					disabled={this.props.isBusy || !this.state.email || !this.state.password || this.state.password != this.state.confirmPassword}
-					type="submit"
-					className="btn btn-primary"
-					onClick={() => {
-						// this.props.authActions.login({
-						// 	email: this._email.value,
-						// 	password: this._password.value,
-						// });
-					}}
-				>
-					Signup
-				</button>
-			</div>
-		);
-	}}
+        return (
+                <div className="alert alert-danger" role="alert">
+                  <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                  <span className="sr-only">Error:</span>
+                  {(this.props.info.exception && this.props.info.exception.data && this.props.info.exception.data.message)  || this.props.info.error}
+                </div>
+        );
+    }
+
+    render() {
+        return (
+            <div style={{position: "relative"}}>
+                <div  style={{marginBottom: 10}}>
+                    <h3>SignUp</h3>
+                    {this.renderBusy()}
+                    <div className="form-group">
+                        <label htmlFor="inputEmail3">Email</label>
+                        <input disabled={this.props.info.isBusy} 
+                            type="email" className="form-control" id="inputEmail3" placeholder="Email"
+                            onChange={(e) => this.setState({email: e.target.value,})}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="inputPassword3">Password</label>
+                        <input disabled={this.props.info.isBusy} type="password" className="form-control" id="inputPassword3" placeholder="Password"
+                            onChange={(e) => this.setState({password: e.target.value,})}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="inputPassword4">Confirm Password</label>
+                        <input 
+                            disabled={this.props.info.isBusy}
+                            type="password"
+                            className="form-control"
+                            id="inputPassword4"
+                            placeholder="type again you password"
+                            onChange={(e) => this.setState({confirmPassword: e.target.value,})}
+                        />
+                    </div>
+
+                    <button
+                        disabled={this.props.info.isBusy || !this.state.email || !this.state.password || this.state.password != this.state.confirmPassword}
+                        type="submit"
+                        className="btn btn-primary"
+                        onClick={() => {
+                            this.props.actions.signup({
+                                email: this.state.email,
+                                password: this.state.password,
+                            });
+                        }}
+                    >
+                        Signup
+                    </button>
+                </div>
+                {this.renderError()}
+            </div>
+        );
+    }}
 
 export default SignUp;

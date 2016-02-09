@@ -4,85 +4,86 @@ import { routeActions, } from 'react-router-redux';
 import { loadMenu } from './dashboard-actions';
 
 export function logout(){
-	// async action
-	return function(dispatch, getState){
-		if (getState().login.isBusy){
-			return;
-		}
+    // async action
+    return function(dispatch, getState){
+        const loginState = getState().login;
+        if (loginState && loginState.isBusy){
+            return;
+        }
 
-		// dispatch authentication in progress message
-		dispatch({
-			type: actionTypes.AUTH_LOGOUT
-		});
+        // dispatch authentication in progress message
+        dispatch({
+            type: actionTypes.AUTH_LOGOUT
+        });
 
-		dispatch(routeActions.replace('/'));
-	}
+        dispatch(routeActions.replace('/'));
+    }
 }
 
 export function login(p){
-	// async action
-	const {email, password,} = p || {};
-	return function(dispatch){
-		// dispatch message  and exit
-		if (!email || !password){
-			dispatch(invalid({error:'Email and password are required.',}))
-			return;
-		}
+    // async action
+    const {email, password,} = p || {};
+    return function(dispatch){
+        // dispatch message  and exit
+        if (!email || !password){
+            dispatch(invalid({error:'Email and password are required.',}))
+            return;
+        }
 
-		// dispatch authentication in progress message
-		dispatch({
-			type: actionTypes.AUTH_LOGIN_REQUEST,
-		});
+        // dispatch authentication in progress message
+        dispatch({
+            type: actionTypes.AUTH_LOGIN_REQUEST,
+        });
 
-		// server authentication
-		request.post('auth/login', {email, password,})
-			.then((response) => {
-				if (response.token){
-					dispatch(success({
-						token: response.token,
-						email,
-					}));
+        // server authentication
+        request.post('auth/login', {email, password,})
+            .then((response) => {
+                if (response.token){
+                    dispatch(success({
+                        token: response.token,
+                        email,
+                    }));
 
-					dispatch(loadMenu({
-						menu:[
-							{desc:'Item1', route:'/app/item-1',},
-							{desc:'Item2', route:'/app/item-2',},
-							{desc:'Item3', route:'/app/item-3',},
-						],
-					}));
+                    dispatch(loadMenu({
+                        menu:[
+                            {desc:'Item1', route:'/app/item-1',},
+                            {desc:'Item2', route:'/app/item-2',},
+                            {desc:'Item3', route:'/app/item-3',},
+                        ],
+                    }));
 
-					dispatch(routeActions.replace('/app'));
-					return;
-				}
+                    dispatch(routeActions.replace('/app'));
+                    return;
+                }
 
-				dispatch(invalid({
-					error: 'Invalid credentials. try again.',
-				}));
+                dispatch(invalid({
+                    error: 'Invalid credentials. try again.',
+                }));
 
-			})
-			.catch((ex) => {
-				dispatch(invalid({
-					error: 'ops, something wrong. Try again.',
-					exception: ex,
-				}));
-			})
-	}
+            })
+            .catch((ex) => {
+                dispatch(invalid({
+                    error: 'ops, something wrong. Try again.',
+                    exception: ex,
+                }));
+            })
+    }
 }
 
 export function success(p){
-	const {token,email} = p || {};
-	return {
-		type: actionTypes.AUTH_LOGIN_SUCCESS,
-		token,
-		email,
-	}
+    const {token,email} = p || {};
+    return {
+        type: actionTypes.AUTH_LOGIN_SUCCESS,
+        token,
+        email,
+    }
 }
 
 export function invalid(p){
-	const {error, exception} = p;
-	return {
-		type: actionTypes.AUTH_LOGIN_INVALID,
-		error,
-		exception,
-	}
+    const {error, exception} = p;
+    return {
+        type: actionTypes.AUTH_LOGIN_INVALID,
+        error,
+        exception,
+    }
 }

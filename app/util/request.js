@@ -1,22 +1,43 @@
+import axios from 'axios';
+
+
+function checkStatus(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response
+  } else {
+    var error = new Error(response.statusText)
+    error.response = response
+    throw error
+  }
+}
+
+function parseJSON(response) {
+  return response.json()
+}
+
 export default (new (function(){
-	const header = {};
-	
-	this.setHeader = function(header){
-	};
+    const header = {};
+    const {config,} = process.env;
+    const instance = axios.create({
+      baseURL: config.apiURL,
+      // timeout: 1000,
+      // headers: {'X-Custom-Header': 'foobar'}
+    });
 
-	this.get = function(url){
-		return Promise.resolve();
-	};
+    this.setHeader = function(header){
+    };
 
-	this.post = function(url, {email, password}){
-		if (url == 'auth/login'){
-			if (email == 'test@test.com' && password == '123'){
-				return Promise.resolve({token: '123'});
-			}
-			return Promise.resolve({});
-		}
+    this.get = function(url){
+        return Promise.resolve();
+    };
 
-		throw new Error(url);
-	};
+    this.put = function(url, body){
+        return instance.put(url, body);
+    };
+
+    this.post = function(url, body){
+        return instance.post(url, body)
+            .then((response) => response.data);
+    };
 
 })());

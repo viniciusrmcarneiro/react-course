@@ -1,4 +1,4 @@
-import User from './user'
+import User from '../user'
 import chai,{should,} from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import fs from 'fs';
