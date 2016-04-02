@@ -44,7 +44,7 @@ styles:
   # panels: true
   # wells: true
   # close: true
-  # modals: true
+  modals: true
   # tooltip: true
   # popovers: true
   # carousel: true

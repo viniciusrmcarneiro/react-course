@@ -1,15 +1,20 @@
 import React,
  { PropTypes, } from 'react';
 
+import Modal from 'react-bootstrap/lib/Modal';
+import Button from 'react-bootstrap/lib/Button';
+
 class SignUp extends React.Component {
     static propTypes = {
         actions: PropTypes.shape({
             signup: PropTypes.func.isRequired,
+            gotoLogin: PropTypes.func.isRequired,
         }).isRequired,
 
         info: PropTypes.shape({
             isBusy: PropTypes.bool,
             error: PropTypes.string,
+            success: PropTypes.bool,
         }).isRequired,
     };
 
@@ -50,6 +55,24 @@ class SignUp extends React.Component {
     render() {
         return (
             <div style={{position: "relative"}}>
+                <Modal
+                    bsSize="lg"
+                    backdrop={true}
+                    show={this.props.info.success == true}
+                    autoFocus={true}
+                    keyboard={true}
+                >
+                    <Modal.Header>
+                        <Modal.Title>Sign Up</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        CADASTRO REALIZADO COM SUCESSO.
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button bsStyle="default" onClick={::this.props.actions.gotoLogin}>OK</Button>
+                    </Modal.Footer>
+                </Modal>
+
                 <div  style={{marginBottom: 10}}>
                     <h3>SignUp</h3>
                     {this.renderBusy()}
@@ -84,6 +107,9 @@ class SignUp extends React.Component {
                         disabled={this.props.info.isBusy || !this.state.email || !this.state.password || this.state.password != this.state.confirmPassword}
                         type="submit"
                         className="btn btn-primary"
+                        style={{
+                            transition: "opacity 0.3s linear"
+                        }}
                         onClick={() => {
                             this.props.actions.signup({
                                 email: this.state.email,

@@ -2,13 +2,23 @@ import * as actionTypes from './index.js';
 import request from 'app/util/request';
 import { routeActions, } from 'react-router-redux';
 
+export function gotoLogin(p){
+    return dispatch => {
+        dispatch({
+            type: actionTypes.SIGNUP_SUCCESS_CONFIRMED,
+        });
+
+        dispatch(routeActions.replace('/login'));
+    };
+}
+
 export function signup(p){
     // async action
     const {email, password,} = p || {};
     return function(dispatch){
         // dispatch message  and exit
         if (!email || !password){
-            dispatch(invalid({error:'Email and password are required.',}))
+            dispatch(invalid({error: 'Email and password are required.',}))
             return;
         }
 

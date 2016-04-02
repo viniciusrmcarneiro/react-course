@@ -5,6 +5,8 @@ import {
     AUTH_LOGIN_ERROR,
 
     AUTH_LOGOUT,
+
+    SIGNUP_SUCCESS,
 } from 'app/actions';
 const initialState = {
     loggedIn: false,
@@ -12,6 +14,11 @@ const initialState = {
 
 export default function AuthReducers(state = initialState, action) {
     switch (action.type) {
+        case SIGNUP_SUCCESS:
+            return {
+                ...state,
+                defaultEmail: action.email,
+            };
 
         case AUTH_LOGOUT:
             if (state.isBusy){

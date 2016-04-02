@@ -56,14 +56,16 @@ const SignupConnector = connect(
         info: state.signup,
     }),
     (dispatch) => ({
-        // routeActions: bindActionCreators(routeActions, dispatch),
-        actions: bindActionCreators({signup: signupActions.signup}, dispatch),
+        actions: bindActionCreators({
+            signup: signupActions.signup,
+            gotoLogin: signupActions.gotoLogin,
+        }, dispatch),
     })
 );
 
 const routes = (
     <Route path="/" component={MainConnector(Main)}>
-    <Route path="login" component={AuthConnector(Login)}/>
+        <Route path="login" component={AuthConnector(Login)}/>
         {/*
         <IndexRoute component={HomeIndex} />
         */}

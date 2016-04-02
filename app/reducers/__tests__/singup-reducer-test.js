@@ -28,6 +28,7 @@ describe('SIGNUP REDUCER', function(){
             isBusy: true,
             error: undefined,
             exception: undefined,
+            success: undefined,
         });
     });
 
@@ -46,6 +47,7 @@ describe('SIGNUP REDUCER', function(){
             isBusy: true,
             error: undefined,
             exception: undefined,
+            success: undefined,
         });
     });
 
@@ -65,6 +67,7 @@ describe('SIGNUP REDUCER', function(){
             error: undefined,
             exception: undefined,
             email: actionSignupSuccess.email,
+            success: true,
         });
     });
 
@@ -83,6 +86,7 @@ describe('SIGNUP REDUCER', function(){
             isBusy: false,
             error: actionInvalid.error,
             exception: undefined,
+            success: undefined,
         });
     });
 

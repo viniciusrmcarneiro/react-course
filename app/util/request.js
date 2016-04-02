@@ -11,10 +11,6 @@ function checkStatus(response) {
   }
 }
 
-function parseJSON(response) {
-  return response.json()
-}
-
 export default (new (function(){
     const header = {};
     const {config,} = process.env;

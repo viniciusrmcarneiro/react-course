@@ -11,6 +11,8 @@ export default class Login extends React.Component {
             isBusy: PropTypes.bool,
             error: PropTypes.string,
         }).isRequired,
+
+        defaultEmail: PropTypes.string,
     };
 
     componentDidMount() {
@@ -50,14 +52,14 @@ export default class Login extends React.Component {
                     {this.renderBusy()}
                     <div className="form-group">
                         <label htmlFor="inputEmail3">Email</label>
-                        <input defaultValue="test@test.com" disabled={this.props.loginInfo.isBusy} type="email" className="form-control" id="inputEmail3" placeholder="Email"
+                        <input defaultValue={this.props.loginInfo.defaultEmail} disabled={this.props.loginInfo.isBusy} type="email" className="form-control" id="inputEmail3" placeholder="Email"
                             ref={(input) => this._email = input}
                         />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="inputPassword3">Password</label>
-                        <input defaultValue="123" disabled={this.props.loginInfo.isBusy} type="password" className="form-control" id="inputPassword3" placeholder="Password"
+                        <input disabled={this.props.loginInfo.isBusy} type="password" className="form-control" id="inputPassword3" placeholder="Password"
                             ref={(input) => this._password = input}
                         />
                     </div>

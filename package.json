@@ -6,7 +6,7 @@
   "repository": "https://github.com/viniciusrmcarneiro/react-course.git",
   "main": "web-dev.js",
   "scripts": {
-    "start": "echo => tryout [npm run dev] or [nrm run dev-web] or [nrm run dev-api]",
+    "start": "echo => tryout [npm run dev] or [npm run dev-web] or [npm run dev-api]",
     "dev": "npm run dev-web & npm run dev-api",
     "dev-web": "babel-node web-dev.js",
     "dev-api": "nodemon --exec babel-node api-server.js",
@@ -14,7 +14,7 @@
     "test-coverage": "babel-node node_modules/karma/bin/karma start  ./karma.conf.coverage.js",
     "test-api": "mocha --compilers js:babel-register --ui bdd api/**/*-test.js",
     "test-api-w": "mocha --compilers js:babel-register --ui bdd api/**/*-test.js --watch",
-    "test": "echo => tryout [npm run test-debug] or [nrm run test-coverage] or [npm run test-api]"
+    "test": "echo tryout [npm run test-debug] or [npm run test-coverage] or [npm run test-api]"
   },
   "babel-node": {
     "rootDir": "./",
